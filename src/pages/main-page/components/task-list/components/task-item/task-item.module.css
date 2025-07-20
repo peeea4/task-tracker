@@ -1,0 +1,49 @@
+.task {
+    background-color: #8a817c;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 12px;
+    width: 480px;
+}
+
+.priority {
+    border-radius: 50%;
+    min-width: 8px;
+    min-height: 8px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #fffcf2;
+}
+
+.deleteTaskIcon {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.high {
+    background-color: red;
+}
+
+.medium {
+    background-color: yellow;
+}
+
+.low {
+    background-color: green;
+}
+
+.title {
+    font-size: 20px;
+    color: #fffcf2;
+}
+
+.id {
+    font-size: 16px;
+    color: rgb(192, 192, 192);
+}

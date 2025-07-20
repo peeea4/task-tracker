@@ -1,0 +1,27 @@
+.aside {
+    background-color: #252422;
+    width: 320px;
+    padding: 12px 24px;
+    border-right: 1px solid lch(16.16 3.54 272);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.createButton {
+    cursor: pointer;
+}
+
+.inputsContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.modal {
+    min-width: 600px;
+}
+
+
