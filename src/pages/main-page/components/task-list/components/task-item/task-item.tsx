@@ -6,26 +6,26 @@ import fontStyles from '@/fonts.module.css'
 import { useShowModal } from '@/shared/hooks'
 import { useTaskListStore } from '@/shared/store'
 
-import { PRIORITY, type ITaskItem } from '@/shared/types/data-model'
+import { type ITaskItem } from '@/shared/types/data-model'
 
 type Props = ITaskItem
 
-export const TaskItem: FC<Props> = ({ content, priority, id }) => {
-    const { title, description } = content
+export const TaskItem: FC<Props> = ({ content, id }) => {
+    const { title } = content
     const { deleteTask } = useTaskListStore()
 
-    const { isModalVisible, showModal } = useShowModal()
+    const { isModalVisible } = useShowModal()
 
     const handleDeleteTask = () => {
         deleteTask(id)
     }
 
-    const handleEditButtonClick = () => {
-        showModal()
-    }
+    // const handleEditButtonClick = () => {
+    //     showModal()
+    // }
 
-    const priorityClassName =
-        priority === PRIORITY.LOW ? styles.low : PRIORITY.HIGH ? styles.high : styles.medium
+    // const priorityClassName =
+    //     priority === PRIORITY.LOW ? styles.low : PRIORITY.HIGH ? styles.high : styles.medium
 
     return (
         <div className={styles.task}>
