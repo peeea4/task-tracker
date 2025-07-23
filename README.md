@@ -1,4 +1,5 @@
 # ToDo list
+
 ## React + TypeScript + Vite + Vitest + Zustand + CSS Modules
 
 ### Main TODO:
@@ -15,9 +16,6 @@
 - [ ] Write unit tests
 - [ ] Write integration tests (Playwright)
 
-
-
-
-
 ### Additional TODO:
+
 - [ ] Add theme changer
