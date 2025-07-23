@@ -13,7 +13,15 @@ import { type ITaskItem } from '@/shared/types/data-model'
 
 type Props = ITaskItem
 
-export const TaskItem: FC<Props> = ({ id, content, status, priority, labels, updatedAt, createdAt }) => {
+export const TaskItem: FC<Props> = ({
+    id,
+    content,
+    status,
+    priority,
+    labels,
+    updatedAt,
+    createdAt,
+}) => {
     const { title } = content
     const { deleteTask } = useTaskListStore()
 
@@ -81,7 +89,11 @@ export const TaskItem: FC<Props> = ({ id, content, status, priority, labels, upd
             </div>
 
             {isModalVisible && (
-                <EditTaskItemModal isModalVisible={isModalVisible} hideModal={hideModal} task={{ id, content, status, priority, labels, updatedAt, createdAt }} />
+                <EditTaskItemModal
+                    isModalVisible={isModalVisible}
+                    hideModal={hideModal}
+                    task={{ id, content, status, priority, labels, updatedAt, createdAt }}
+                />
             )}
         </div>
     )

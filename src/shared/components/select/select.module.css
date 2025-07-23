@@ -1,75 +1,75 @@
 .select {
-  position: relative;
-  width: 220px;
-  font-family: inherit;
+    position: relative;
+    width: 220px;
+    font-family: inherit;
 }
 
 .fullWidth {
-  width: 100%;
+    width: 100%;
 }
 
 .fontCustom {
-  font-family: var(--poppins), Arial, sans-serif;
-  font-weight: 500;
+    font-family: var(--poppins), Arial, sans-serif;
+    font-weight: 500;
 }
 
 .selected {
-  padding: 10px 36px 10px 12px;
-  border: 1px solid #bdbdbd;
-  border-radius: 6px;
-  background: #fff;
-  cursor: pointer;
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: border 0.2s;
+    padding: 10px 36px 10px 12px;
+    border: 1px solid #bdbdbd;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: border 0.2s;
 }
 
 .selected:focus {
-  outline: none;
-  border: 1.5px solid #1976d2;
+    outline: none;
+    border: 1.5px solid #1976d2;
 }
 
 .arrow {
-  position: absolute;
-  right: 12px;
-  pointer-events: none;
-  font-size: 14px;
-  color: #888;
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+    font-size: 14px;
+    color: #888;
 }
 
 .options {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  border: 1px solid #bdbdbd;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  z-index: 10;
-  margin: 0;
-  padding: 4px 0;
-  list-style: none;
-  max-height: 200px;
-  overflow-y: auto;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #bdbdbd;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+    margin: 0;
+    padding: 4px 0;
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 .option {
-  padding: 10px 12px;
-  cursor: pointer;
-  transition: background 0.15s;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: background 0.15s;
 }
 
 .option:hover {
-  background: #f2f2f2;
+    background: #f2f2f2;
 }
 
 .optionSelected {
-  padding: 10px 12px;
-  background: #e3f2fd;
-  color: #1976d2;
-  font-weight: 500;
-  cursor: pointer;
+    padding: 10px 12px;
+    background: #e3f2fd;
+    color: #1976d2;
+    font-weight: 500;
+    cursor: pointer;
 }

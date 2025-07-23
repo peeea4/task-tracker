@@ -150,7 +150,7 @@ export const Aside = () => {
 
     return (
         <div className={styles.aside}>
-            <div className={styles.createButton} onClick={handleAddTaskClick} id='create-button'>
+            <div className={styles.createButton} onClick={handleAddTaskClick} id="create-button">
                 <StackPlus size={32} color="white" />
                 <span className={fontStyles.poppinsMedium}>Create</span>
             </div>
