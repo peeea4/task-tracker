@@ -1,9 +1,9 @@
 {
-    "name": "pet-project-1",
+    "name": "task-tracker",
     "private": true,
     "version": "0.0.0",
     "type": "module",
-    "homepage": "https://<YOUR_GITHUB_USERNAME>.github.io/<YOUR_REPO_NAME>",
+    "homepage": "https://peeea4.github.io/task-tracker",
     "scripts": {
         "dev": "vite",
         "build": "tsc -b && vite build",
