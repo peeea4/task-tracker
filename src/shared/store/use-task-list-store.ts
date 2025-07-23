@@ -2,8 +2,8 @@ import { create } from 'zustand'
 import type { ITaskItem, TaskItemStatus, PRIORITY } from '../types'
 
 type Filters = {
-    status?: TaskItemStatus
-    priority?: PRIORITY
+    status?: TaskItemStatus | TaskItemStatus[]
+    priority?: PRIORITY | PRIORITY[]
 }
 
 type State = {
@@ -24,8 +24,22 @@ type Actions = {
 
 const recalculate = (taskList: ITaskItem[], filters: Filters) => {
     const filteredTaskList = taskList.filter((task) => {
-        const matchStatus = filters.status ? task.status === filters.status : true
-        const matchPriority = filters.priority ? task.priority === filters.priority : true
+        let matchStatus = true
+        if (filters.status) {
+            if (Array.isArray(filters.status)) {
+                matchStatus = filters.status.includes(task.status)
+            } else {
+                matchStatus = task.status === filters.status
+            }
+        }
+        let matchPriority = true
+        if (filters.priority) {
+            if (Array.isArray(filters.priority)) {
+                matchPriority = filters.priority.includes(task.priority)
+            } else {
+                matchPriority = task.priority === filters.priority
+            }
+        }
         return matchStatus && matchPriority
     })
 
