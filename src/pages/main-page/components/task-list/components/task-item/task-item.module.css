@@ -47,3 +47,34 @@
     font-size: 16px;
     color: rgb(192, 192, 192);
 }
+
+.popoverMenu {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    min-width: 140px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.popoverButton {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    padding: 10px 16px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.popoverButton:hover {
+    background: #f2f2f2;
+}

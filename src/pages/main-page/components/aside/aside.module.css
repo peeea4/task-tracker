@@ -1,15 +1,37 @@
 .aside {
     background-color: #252422;
-    width: 320px;
+    width: 420px;
     padding: 12px 24px;
     border-right: 1px solid lch(16.16 3.54 272);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: flex-start;
+    gap: 32px;
 }
 
 .createButton {
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: #fffcf2;
+}
+
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .filterGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .filterTitle {
+            color: #fffcf2;
+        }
+    }
 }
 
 .inputsContainer {
@@ -22,4 +44,14 @@
 
 .modal {
     min-width: 600px;
+}
+
+.checkboxLabel {
+    color: #fffcf2;
+    font-size: 15px;
+}
+
+.buttonsContainer {
+    display: flex;
+    gap: 16px;
 }
