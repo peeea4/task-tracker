@@ -1,28 +1,24 @@
 import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react'
 import { clsx } from 'clsx'
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, type FC } from 'react'
 import styles from './select.module.css'
+import { TestId } from '@/shared/constants'
 
 export interface Option {
     value: string
     label: string
 }
 
-interface SelectProps {
+interface Props {
     options: Option[]
     value: string
     onChange: (value: string) => void
     placeholder?: string
     className?: string
+    testId?: string
 }
 
-export const Select: React.FC<SelectProps> = ({
-    options,
-    value,
-    onChange,
-    placeholder,
-    className,
-}) => {
+export const Select: FC<Props> = ({ options, value, onChange, placeholder, testId }) => {
     const [isOpen, setIsOpen] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
 
@@ -43,7 +39,7 @@ export const Select: React.FC<SelectProps> = ({
     const selectedOption = options.find((option) => option.value === value)
 
     return (
-        <div className={clsx(styles.select, className)} ref={ref}>
+        <div className={clsx(styles.select, styles.fullWidth)} ref={ref}>
             <div
                 className={styles.selected}
                 onClick={() => setIsOpen((prev) => !prev)}
@@ -51,6 +47,7 @@ export const Select: React.FC<SelectProps> = ({
                 role="button"
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
+                data-testid={testId}
             >
                 {selectedOption ? selectedOption.label : placeholder || 'Выберите...'}
 
@@ -71,6 +68,7 @@ export const Select: React.FC<SelectProps> = ({
                             }}
                             role="option"
                             aria-selected={option.value === value}
+                            data-testid={testId + option.value}
                         >
                             {option.label}
                         </li>

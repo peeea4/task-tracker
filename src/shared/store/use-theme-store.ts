@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 type State = {
     theme: 'light' | 'dark'
@@ -12,7 +13,12 @@ const initialState: State = {
     theme: 'dark',
 }
 
-export const useThemeStore = create<State & Actions>((set) => ({
-    ...initialState,
-    toggleTheme: (theme) => set(() => ({ theme: theme === 'light' ? 'dark' : 'light' })),
-}))
+export const useThemeStore = create<State & Actions>()(
+    persist(
+        (set) => ({
+            ...initialState,
+            toggleTheme: (theme) => set(() => ({ theme: theme === 'light' ? 'dark' : 'light' })),
+        }),
+        { name: 'theme-storage' },
+    ),
+)

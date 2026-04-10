@@ -2,8 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 
-import { MainPage } from './pages'
 import './reset.css'
+import { MainPage } from '@/pages'
 
 const router = createBrowserRouter([
     {

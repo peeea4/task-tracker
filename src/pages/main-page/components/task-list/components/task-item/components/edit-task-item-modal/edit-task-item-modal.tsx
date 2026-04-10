@@ -1,9 +1,9 @@
-import type { FC } from 'react'
-import React, { useState } from 'react'
+import type { ChangeEvent, FC } from 'react'
+import { useState } from 'react'
 import styles from './edit-task-item-modal.module.css'
 import { Modal } from '@/shared/components'
 import { useTaskListStore } from '@/shared/store'
-import { type ITaskItem, TaskItemStatus, PRIORITY, Labels } from '@/shared/types/data-model'
+import { type ITaskItem, TaskItemStatus, Priority } from '@/shared/types'
 
 interface Props {
     isModalVisible: boolean
@@ -19,38 +19,26 @@ export const EditTaskItemModal: FC<Props> = ({ isModalVisible, hideModal, task }
         title: task.content.title,
         description: task.content.description,
         dueDate: task.content.dueDate || '',
-        labels: task.labels?.map((l) => l.name) || [],
     })
 
     const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+        e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     ) => {
         const { name, value } = e.target
         setForm((prev) => ({ ...prev, [name]: value }))
-    }
-
-    const handleLabelsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const options = Array.from(e.target.selectedOptions, (o) => o.value as Labels)
-        setForm((prev) => ({ ...prev, labels: options }))
     }
 
     const handleSave = () => {
         const updatedTask: ITaskItem = {
             ...task,
             status: form.status as TaskItemStatus,
-            priority: form.priority as PRIORITY,
+            priority: form.priority as Priority,
             content: {
                 ...task.content,
                 title: form.title,
                 description: form.description,
                 dueDate: form.dueDate || undefined,
             },
-            labels: form.labels.length
-                ? form.labels.map((name) => ({
-                      name,
-                      color: task.labels?.find((l) => l.name === name)?.color || 'red',
-                  }))
-                : undefined,
             updatedAt: new Date().toISOString(),
         }
         editTask(updatedTask, task.id)
@@ -62,14 +50,9 @@ export const EditTaskItemModal: FC<Props> = ({ isModalVisible, hideModal, task }
             open={isModalVisible}
             titleContent={'Edit Task'}
             cancelFn={hideModal}
+            primaryFn={handleSave}
             Content={
-                <form
-                    className={styles.form}
-                    onSubmit={(e) => {
-                        e.preventDefault()
-                        handleSave()
-                    }}
-                >
+                <form className={styles.form}>
                     <label className={styles.label}>
                         Title
                         <input
@@ -112,7 +95,7 @@ export const EditTaskItemModal: FC<Props> = ({ isModalVisible, hideModal, task }
                             value={form.priority}
                             onChange={handleChange}
                         >
-                            {Object.values(PRIORITY).map((priority) => (
+                            {Object.values(Priority).map((priority) => (
                                 <option key={priority} value={priority}>
                                     {priority}
                                 </option>
@@ -129,34 +112,6 @@ export const EditTaskItemModal: FC<Props> = ({ isModalVisible, hideModal, task }
                             onChange={handleChange}
                         />
                     </label>
-                    <label className={styles.label}>
-                        Labels
-                        <select
-                            className={styles.select}
-                            name="labels"
-                            multiple
-                            value={form.labels}
-                            onChange={handleLabelsChange}
-                        >
-                            {Object.values(Labels).map((label) => (
-                                <option key={label} value={label}>
-                                    {label}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
-                    <div className={styles.buttonRow}>
-                        <button className={styles.button} type="submit">
-                            Save
-                        </button>
-                        <button
-                            className={`${styles.button} ${styles.cancel}`}
-                            type="button"
-                            onClick={hideModal}
-                        >
-                            Cancel
-                        </button>
-                    </div>
                 </form>
             }
         />

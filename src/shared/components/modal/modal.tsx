@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 
 import { Button } from '../button/button'
 import styles from './modal.module.css'
-import fontStyles from '@/fonts.module.css'
 
 type Props = {
     open: boolean
@@ -13,11 +12,22 @@ type Props = {
     Content?: ReactElement
     titleContent?: ReactNode
     modalClassName?: string
+    cancelButtonTitle?: string
+    primaryButtonTitle?: string
+    primaryFnTestId?: string
 }
 
-export const Modal: FC<Props> = (props) => {
-    const { open, cancelFn, primaryFn, titleContent, Content, modalClassName } = props
-
+export const Modal: FC<Props> = ({
+    open,
+    cancelFn,
+    primaryFn,
+    titleContent,
+    Content,
+    modalClassName,
+    cancelButtonTitle = 'Cancel',
+    primaryButtonTitle = 'Continue',
+    primaryFnTestId,
+}) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape' && open) cancelFn?.()
@@ -34,7 +44,7 @@ export const Modal: FC<Props> = (props) => {
         <div className={styles.modalBackground}>
             <div className={`${styles.modalContainer} ${modalClassName}`}>
                 {titleContent && (
-                    <div className={`${fontStyles.poppinsMedium} ${styles.title}`}>
+                    <div className={styles.title}>
                         {titleContent}
                         <div className={styles.titleCloseBtn}>
                             {<X size={24} onClick={cancelFn} />}
@@ -45,8 +55,12 @@ export const Modal: FC<Props> = (props) => {
                 {Content && <div className={styles.body}>{Content}</div>}
 
                 <div className={styles.footer}>
-                    {cancelFn && <Button onClick={cancelFn}>Cancel</Button>}
-                    {primaryFn && <Button onClick={primaryFn}>Continue</Button>}
+                    {cancelFn && <Button onClick={cancelFn}>{cancelButtonTitle}</Button>}
+                    {primaryFn && (
+                        <Button onClick={primaryFn} testId={primaryFnTestId}>
+                            {primaryButtonTitle}
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>,

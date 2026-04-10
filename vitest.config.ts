@@ -15,5 +15,12 @@ export default defineConfig({
             '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*',
             '**/tests',
         ],
+        coverage: {
+            reporter: ['text', 'json', 'html'],
+            exclude: [
+                '**/index.{ts,tsx,js,jsx}', // index файлы
+                '**/*.config.{ts,js,cjs,mjs}', // конфиги
+            ],
+        },
     },
 })

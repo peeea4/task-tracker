@@ -30,6 +30,8 @@
 
         .filterTitle {
             color: #fffcf2;
+
+            font-weight: 500;
         }
     }
 }
@@ -49,6 +51,8 @@
 .checkboxLabel {
     color: #fffcf2;
     font-size: 15px;
+
+    font-weight: 500;
 }
 
 .buttonsContainer {

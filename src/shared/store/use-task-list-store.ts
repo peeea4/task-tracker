@@ -1,9 +1,11 @@
 import { create } from 'zustand'
-import type { ITaskItem, TaskItemStatus, PRIORITY } from '../types'
+import { persist } from 'zustand/middleware'
+
+import type { ITaskItem, TaskItemStatus, Priority } from '../types'
 
 type Filters = {
-    status?: TaskItemStatus | TaskItemStatus[]
-    priority?: PRIORITY | PRIORITY[]
+    status?: TaskItemStatus[]
+    priority?: Priority[]
 }
 
 type State = {
@@ -11,7 +13,7 @@ type State = {
     filters: Filters
     filteredTaskList: ITaskItem[]
     availableStatuses: TaskItemStatus[]
-    availablePriorities: PRIORITY[]
+    availablePriorities: Priority[]
 }
 
 type Actions = {
@@ -22,79 +24,85 @@ type Actions = {
     clearFilters: () => void
 }
 
-const recalculate = (taskList: ITaskItem[], filters: Filters) => {
+const recalculateState = (taskList: ITaskItem[], filters: Filters) => {
     const filteredTaskList = taskList.filter((task) => {
-        let matchStatus = true
+        let isMatchStatus = true
+        let isMatchPriority = true
+
         if (filters.status) {
-            if (Array.isArray(filters.status)) {
-                matchStatus = filters.status.includes(task.status)
-            } else {
-                matchStatus = task.status === filters.status
-            }
+            isMatchStatus = filters.status.includes(task.status)
         }
-        let matchPriority = true
+
         if (filters.priority) {
-            if (Array.isArray(filters.priority)) {
-                matchPriority = filters.priority.includes(task.priority)
-            } else {
-                matchPriority = task.priority === filters.priority
-            }
+            isMatchPriority = filters.priority.includes(task.priority)
         }
-        return matchStatus && matchPriority
+
+        return isMatchStatus && isMatchPriority
     })
 
-    const statuses = Array.from(new Set(taskList.map((t) => t.status)))
-    const priorities = Array.from(new Set(taskList.map((t) => t.priority)))
+    const statuses = Array.from(new Set(taskList.map((item) => item.status)))
+    const priorities = Array.from(new Set(taskList.map((item) => item.priority)))
 
     return { filteredTaskList, availableStatuses: statuses, availablePriorities: priorities }
 }
 
-export const useTaskListStore = create<State & Actions>((set) => ({
-    taskList: [],
-    filters: {},
-    filteredTaskList: [],
-    availableStatuses: [],
-    availablePriorities: [],
-
-    addTask: (task) =>
-        set((state) => {
-            const newTaskList = [...state.taskList, task]
-            return {
-                taskList: newTaskList,
-                ...recalculate(newTaskList, state.filters),
-            }
-        }),
-
-    deleteTask: (id) =>
-        set((state) => {
-            const newTaskList = state.taskList.filter((task) => task.id !== id)
-            return {
-                taskList: newTaskList,
-                ...recalculate(newTaskList, state.filters),
-            }
-        }),
-
-    editTask: (newTask, id) =>
-        set((state) => {
-            const newTaskList = state.taskList.map((task) => (task.id === id ? newTask : task))
-            return {
-                taskList: newTaskList,
-                ...recalculate(newTaskList, state.filters),
-            }
-        }),
-
-    setFilters: (filters) =>
-        set((state) => {
-            const newFilters = { ...state.filters, ...filters }
-            return {
-                filters: newFilters,
-                ...recalculate(state.taskList, newFilters),
-            }
-        }),
-
-    clearFilters: () =>
-        set((state) => ({
+export const useTaskListStore = create<State & Actions>()(
+    persist(
+        (set) => ({
+            taskList: [],
             filters: {},
-            ...recalculate(state.taskList, {}),
-        })),
-}))
+            filteredTaskList: [],
+            availableStatuses: [],
+            availablePriorities: [],
+
+            addTask: (task) =>
+                set((state) => {
+                    const newTaskList = [...state.taskList, task]
+
+                    return {
+                        taskList: newTaskList,
+                        ...recalculateState(newTaskList, state.filters),
+                    }
+                }),
+
+            deleteTask: (id) =>
+                set((state) => {
+                    const newTaskList = state.taskList.filter((task) => task.id !== id)
+
+                    return {
+                        taskList: newTaskList,
+                        ...recalculateState(newTaskList, state.filters),
+                    }
+                }),
+
+            editTask: (newTask, id) =>
+                set((state) => {
+                    const newTaskList = state.taskList.map((task) =>
+                        task.id === id ? newTask : task,
+                    )
+
+                    return {
+                        taskList: newTaskList,
+                        ...recalculateState(newTaskList, state.filters),
+                    }
+                }),
+
+            setFilters: (filters) =>
+                set((state) => {
+                    const newFilters = { ...state.filters, ...filters }
+
+                    return {
+                        filters: newFilters,
+                        ...recalculateState(state.taskList, newFilters),
+                    }
+                }),
+
+            clearFilters: () =>
+                set((state) => ({
+                    filters: {},
+                    ...recalculateState(state.taskList, {}),
+                })),
+        }),
+        { name: 'todo-storage' },
+    ),
+)

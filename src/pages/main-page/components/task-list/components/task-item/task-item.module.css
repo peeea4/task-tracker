@@ -3,15 +3,47 @@
     padding: 16px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     border-radius: 12px;
     width: 480px;
+    position: relative;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .priority {
-    border-radius: 50%;
-    min-width: 8px;
-    min-height: 8px;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 100%;
+    width: 38px;
+}
+
+.priority-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background-color: #bdbdbd;
+}
+
+.priority-minor .priority-dot {
+    background-color: #bdbdbd;
+}
+.priority-low .priority-dot {
+    background-color: #4caf50;
+}
+.priority-medium .priority-dot {
+    background-color: #ffeb3b;
+}
+.priority-high .priority-dot {
+    background-color: #ff9800;
+}
+.priority-critical .priority-dot {
+    background-color: #f44336;
 }
 
 .content {
@@ -41,11 +73,13 @@
 .title {
     font-size: 20px;
     color: #fffcf2;
+    font-weight: 500;
 }
 
 .id {
     font-size: 16px;
     color: rgb(192, 192, 192);
+    font-weight: 300;
 }
 
 .popoverMenu {

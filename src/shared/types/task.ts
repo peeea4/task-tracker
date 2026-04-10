@@ -9,14 +9,7 @@ export enum TaskItemStatus {
     CANCELLED = 'CANCELLED',
 }
 
-export enum Labels {
-    BUG = 'BUG',
-    FEATURE = 'FEATURE',
-    REFACTORING = 'REFACTORING',
-    RESEARCHING = 'RESEARCHING',
-}
-
-export enum PRIORITY {
+export enum Priority {
     MINOR = 'MINOR',
     LOW = 'LOW',
     MEDIUM = 'MEDIUM',
@@ -24,32 +17,15 @@ export enum PRIORITY {
     CRITICAL = 'CRITICAL',
 }
 
-export const LabelColors = {
-    [Labels.BUG]: 'red',
-    [Labels.FEATURE]: 'purple',
-    [Labels.REFACTORING]: 'red',
-    [Labels.RESEARCHING]: 'red',
-}
-
-type Label = {
-    name: Labels
-    color: string
-}
-
 export interface ITaskItem {
     id: string
     status: TaskItemStatus
-    priority: PRIORITY
+    priority: Priority
     content: {
         title: string
         description: string
         dueDate?: string
     }
-    labels?: Label[]
     updatedAt: string
     createdAt: string
-}
-
-export type Workspace = {
-    taskList: ITaskItem[]
 }

@@ -3,6 +3,7 @@
     flex-direction: column;
     gap: 16px;
     padding: 8px 0;
+    width: 600px;
 }
 
 .label {
@@ -10,6 +11,9 @@
     color: #333;
     font-weight: 500;
     margin-bottom: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .input,

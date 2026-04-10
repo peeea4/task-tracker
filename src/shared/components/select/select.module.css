@@ -1,7 +1,7 @@
 .select {
     position: relative;
     width: 220px;
-    font-family: inherit;
+    font-weight: 500;
 }
 
 .fullWidth {
@@ -9,7 +9,6 @@
 }
 
 .fontCustom {
-    font-family: var(--poppins), Arial, sans-serif;
     font-weight: 500;
 }
 

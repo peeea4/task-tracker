@@ -3,35 +3,41 @@ import type { FC } from 'react'
 import React, { useEffect } from 'react'
 import { useRef, useState } from 'react'
 
-import { EditTaskItemModal } from './components'
+import { DeleteTaskItemModal, EditTaskItemModal } from './components'
 import styles from './task-item.module.css'
-import fontStyles from '@/fonts.module.css'
+
 import { useShowModal } from '@/shared/hooks'
-import { useTaskListStore } from '@/shared/store'
 
-import { type ITaskItem } from '@/shared/types/data-model'
+import { type ITaskItem, Priority } from '@/shared/types'
 
-type Props = ITaskItem
+type Props = ITaskItem & {
+    testId?: string
+}
 
 export const TaskItem: FC<Props> = ({
     id,
     content,
     status,
     priority,
-    labels,
     updatedAt,
     createdAt,
+    testId,
 }) => {
     const { title } = content
-    const { deleteTask } = useTaskListStore()
 
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const popoverRef = useRef<HTMLDivElement>(null)
     const { isModalVisible, showModal, hideModal } = useShowModal()
+    const {
+        isModalVisible: isDeleteModalVisible,
+        showModal: showDeleteModal,
+        hideModal: hideDeleteModal,
+    } = useShowModal()
 
-    const handleDeleteTask = () => {
+    const handleDeleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
         setIsPopoverOpen(false)
-        deleteTask(id)
+        showDeleteModal()
     }
 
     const handleEditButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -40,7 +46,6 @@ export const TaskItem: FC<Props> = ({
         setIsPopoverOpen(false)
     }
 
-    // Закрытие popover при клике вне его
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
@@ -58,30 +63,59 @@ export const TaskItem: FC<Props> = ({
         }
     }, [isPopoverOpen])
 
-    // const priorityClassName =
-    //     priority === PRIORITY.LOW ? styles.low : PRIORITY.HIGH ? styles.high : styles.medium
+    // Маппинг количества полосок для каждого приоритета
+    const priorityLevels = {
+        [Priority.MINOR]: 1,
+        [Priority.LOW]: 2,
+        [Priority.MEDIUM]: 3,
+        [Priority.HIGH]: 4,
+        [Priority.CRITICAL]: 5,
+    }
+    const priorityClass = `priority-${priority.toLowerCase()}`
 
     return (
-        <div className={styles.task} style={{ position: 'relative' }}>
-            {/* <div className={`${priorityClassName} ${styles.priority}`} /> */}
-
-            <div className={`${fontStyles.poppinsLight} ${styles.id}`}>ID-{id.slice(8)}</div>
-
-            <div className={`${fontStyles.poppinsMedium} ${styles.title}`}>{title}</div>
+        <div className={styles.task} data-testid={testId}>
+            <div className={styles.content}>
+                <div className={styles.id}>ID-{id.slice(8)}</div>
+                <div className={styles.header}>
+                    <div
+                        className={`${styles.priority} ${styles[priorityClass]}`}
+                        title={`Приоритет: ${priority}`}
+                    >
+                        {Array.from({ length: priorityLevels[priority] }).map((_, i) => (
+                            <div
+                                key={i}
+                                className={styles['priority-dot']}
+                                style={{ height: (i + 1) * 6 }}
+                            />
+                        ))}
+                    </div>
+                    <div className={styles.title}>{title}</div>
+                </div>
+            </div>
 
             <div
                 className={styles.deleteTaskIcon}
                 onClick={() => setIsPopoverOpen((prev) => !prev)}
                 ref={popoverRef}
                 style={{ position: 'relative' }}
+                data-testid="three-dots"
             >
                 <DotsThreeIcon size={32} color="#fffcf2" weight="bold" />
                 {isPopoverOpen && (
                     <div className={styles.popoverMenu}>
-                        <button className={styles.popoverButton} onClick={handleDeleteTask}>
+                        <button
+                            className={styles.popoverButton}
+                            data-testid="delete-task"
+                            onClick={handleDeleteTask}
+                        >
                             Delete
                         </button>
-                        <button className={styles.popoverButton} onClick={handleEditButtonClick}>
+                        <button
+                            className={styles.popoverButton}
+                            data-testid="edit-task"
+                            onClick={handleEditButtonClick}
+                        >
                             Edit
                         </button>
                     </div>
@@ -92,7 +126,15 @@ export const TaskItem: FC<Props> = ({
                 <EditTaskItemModal
                     isModalVisible={isModalVisible}
                     hideModal={hideModal}
-                    task={{ id, content, status, priority, labels, updatedAt, createdAt }}
+                    task={{ id, content, status, priority, updatedAt, createdAt }}
+                />
+            )}
+
+            {isDeleteModalVisible && (
+                <DeleteTaskItemModal
+                    isModalVisible={isDeleteModalVisible}
+                    hideModal={hideDeleteModal}
+                    task={{ id, content, status, priority, updatedAt, createdAt }}
                 />
             )}
         </div>
